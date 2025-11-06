@@ -185,28 +185,28 @@ const modelConfigs = {
         accuracy: 94.7,
         mIoU: 89.3,
         f1Score: 91.8,
-        processingSpeed: 1.0
+        processingSpeed: 0.8  // Faster for demo
     },
     unet: {
         name: 'U-Net',
         accuracy: 87.2,
         mIoU: 78.5,
         f1Score: 82.1,
-        processingSpeed: 0.8
+        processingSpeed: 0.6  // Faster for demo
     },
     deeplab: {
         name: 'DeepLabV3+',
         accuracy: 89.5,
         mIoU: 82.7,
         f1Score: 85.9,
-        processingSpeed: 1.2
+        processingSpeed: 1.0  // Moderate speed
     },
     transformer: {
         name: 'Pure Transformer',
         accuracy: 91.3,
         mIoU: 85.1,
         f1Score: 88.2,
-        processingSpeed: 1.5
+        processingSpeed: 1.2  // Slower (realistic)
     }
 };
 
@@ -354,11 +354,11 @@ function processImage(file, index = 0) {
                 const modelConfig = modelConfigs[selectedModel];
                 
                 // Check for API endpoint
-                const apiEndpoint = document.getElementById('apiEndpoint').value;
-                const apiKey = document.getElementById('apiKey').value;
+                const apiEndpoint = document.getElementById('apiEndpoint')?.value;
+                const apiKey = document.getElementById('apiKey')?.value;
                 
-                // Simulate processing time based on model
-                const baseTime = 1500;
+                // If no API configured, process instantly. Otherwise simulate processing time
+                const baseTime = apiEndpoint ? 1500 : 100; // Fast if no API
                 const processingTime = baseTime * modelConfig.processingSpeed;
                 
                 setTimeout(async () => {
@@ -369,7 +369,7 @@ function processImage(file, index = 0) {
                         segmentationData = await callSegmentationAPI(img, apiEndpoint, apiKey, selectedModel);
                     }
                     
-                    // Fallback to simulated segmentation
+                    // Fallback to simulated segmentation (fast local processing)
                     if (!segmentationData) {
                         segmentationData = simulateSegmentation(img, selectedModel);
                     }
