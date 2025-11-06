@@ -1,0 +1,60 @@
+# Ignore Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv
+
+# PyTorch model checkpoints (large files)
+*.pth
+*.pt
+*.ckpt
+
+# Dataset files (too large for git)
+data/
+dataset/
+*.zip
+*.tar
+*.tar.gz
+
+# Training outputs
+runs/
+logs/
+tensorboard/
+*.log
+
+# IDE settings
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+*.ipynb
+
+# Temporary files
+*.tmp
+*.bak
+*.cache
+
+# Model outputs
+outputs/
+predictions/
+results/
+
+# Ignore specific large files but keep directory structure
+model/checkpoints/*.pth
+!model/checkpoints/.gitkeep
