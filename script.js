@@ -178,35 +178,35 @@ let currentVisualizationMode = 'overlay';
 let isComparisonMode = false;
 let uploadedFiles = [];
 
-// Model configurations (with faster processing speeds)
+// Model configurations
 const modelConfigs = {
     proposed: {
         name: 'Our Proposed Model',
         accuracy: 94.7,
         mIoU: 89.3,
         f1Score: 91.8,
-        processingSpeed: 0.5  // Faster
+        processingSpeed: 1.0
     },
     unet: {
         name: 'U-Net',
         accuracy: 87.2,
         mIoU: 78.5,
         f1Score: 82.1,
-        processingSpeed: 0.3  // Faster
+        processingSpeed: 0.8
     },
     deeplab: {
         name: 'DeepLabV3+',
         accuracy: 89.5,
         mIoU: 82.7,
         f1Score: 85.9,
-        processingSpeed: 0.6  // Faster
+        processingSpeed: 1.2
     },
     transformer: {
         name: 'Pure Transformer',
         accuracy: 91.3,
         mIoU: 85.1,
         f1Score: 88.2,
-        processingSpeed: 0.8  // Faster
+        processingSpeed: 1.5
     }
 };
 
@@ -357,16 +357,22 @@ function processImage(file, index = 0) {
                 const apiEndpoint = document.getElementById('apiEndpoint').value;
                 const apiKey = document.getElementById('apiKey').value;
                 
-                // Simulate processing time based on model (reduced for faster demo)
-                const baseTime = 200; // Reduced from 1500ms to 200ms
+                // Simulate processing time based on model
+                const baseTime = 1500;
                 const processingTime = baseTime * modelConfig.processingSpeed;
                 
                 setTimeout(async () => {
                     let segmentationData;
                     
-                    // Skip API call for faster demo - use simulation directly
-                    // (API would timeout and slow things down)
-                    segmentationData = simulateSegmentation(img, selectedModel);
+                    // Try API if configured
+                    if (apiEndpoint) {
+                        segmentationData = await callSegmentationAPI(img, apiEndpoint, apiKey, selectedModel);
+                    }
+                    
+                    // Fallback to simulated segmentation
+                    if (!segmentationData) {
+                        segmentationData = simulateSegmentation(img, selectedModel);
+                    }
                     
                     // Calculate stats
                     const endTime = Date.now();
